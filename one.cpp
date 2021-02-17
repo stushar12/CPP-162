@@ -1,16 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
-# define N 1000
-vector<int> gr[N];
+# define N 1000000
+vector<long long int> gr[N];
 // Function to add edge
-void Add_edge(int x, int y)
+void Add_edge(long long int x, long long int y)
 {
 	gr[x].push_back(y);
     gr[y].push_back(x);
 }
 
 
-int DFS(int source,int visited[],int connected)
+long long int DFS(long long int source,long long int visited[],long long int connected)
 {
 visited[source]=1;
 for(auto x: gr[source])
@@ -24,54 +24,42 @@ for(auto x: gr[source])
 return connected;
 }
 
-int fact(int n) 
-{ 
-    int res = 1; 
-    for (int i = 2; i <= n; i++) 
-        res = res * i; 
-    return res; 
-}
-
-int nCr(int n, int r) 
-{ 
-    return fact(n) / (fact(r) * fact(n - r)); 
-}  
 
 int main()
 {
-int n;
+long long int n;
 cout<<"\nEnter the number of nodes: ";
 cin>>n;
-int pairs;
+long long int pairs;
 cout<<"\nEnter the number of pairs: ";
 cin>>pairs;
 cout<<"\nEnter the pairs:\n";
-for(int i=0;i<pairs;i++)
+for(long long int i=0;i<pairs;i++)
 {
-    int x,y;
+    long long int x,y;
     cin>>x>>y;
     Add_edge(x,y);
 }
 
-int visited[n]={0};
-int connected_components=1;
-int connected[n]={0};
-int count=0;
-for(int i=0;i<pairs;i++)
+long long int visited[n]={0};
+long long int connected_components=1;
+long long int connected[n]={0};
+long long int count=0;
+for(long long int i=0;i<n;i++)
 {
     if(visited[i]==0)
     {
-        int x=DFS(i,visited,connected_components);
+        long long int x=DFS(i,visited,connected_components);
         connected[count]=x;
         count++;
     }
 }
 
-int total=nCr(n,2);
+long long int total=n*(n-1)/2;
 
-for(int i=0;i<pairs;i++)
+for(long long int i=0;i<count;i++)
 {
-	total=total-nCr(connected[i],2);
+	total=total-(connected[i]*(connected[i]-1)/2);
 }
 
 cout<<total;
